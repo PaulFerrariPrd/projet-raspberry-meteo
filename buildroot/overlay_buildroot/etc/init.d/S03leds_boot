@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# Start the leds....
+#
+
+
+
+case "$1" in
+  start)
+        printf "Starting green led heartbeat: "
+        echo none > /sys/class/leds/led1/trigger &&\
+        echo 0 > /sys/class/leds/led1/brightness &&\
+        echo heartbeat > /sys/class/leds/led0/trigger
+        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        ;;
+  stop)
+        printf "Stopping leds: "
+        echo none > /sys/class/leds/led1/trigger &&\
+        echo 0 > /sys/class/leds/led1/brightness &&\
+        echo none > /sys/class/leds/led0/trigger &&\
+        echo 0 > /sys/class/leds/led0/brightness 
+        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        ;;
+
+  *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit $?
+

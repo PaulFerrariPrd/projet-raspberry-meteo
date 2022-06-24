@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Start the i2c bus for bmc180 sensor (temp + pressure)....
+#
+
+
+
+case "$1" in
+  start)
+        modprobe i2c-bcm2835 &&\
+        modprobe bmp280-i2c &&\
+        modprobe i2c-dev &&\
+        [ $? = 0 ] && echo "OK" || echo "FAIL"
+        echo "bmp180 0x77" | tee /sys/bus/i2c/devices/i2c-1/new_device
+        ;;
+  stop)
+        echo "bmp180 0x77" | tee /sys/bus/i2c/devices/i2c-1/delete_device
+        ;;
+
+  *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit $?
+
