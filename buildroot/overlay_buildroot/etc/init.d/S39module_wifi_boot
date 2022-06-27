@@ -1,0 +1,31 @@
+#!/bin/sh                                                           
+#                                                                   
+# load wifi module                                             
+#                                                                   
+                                                                    
+                                               
+                                                                    
+case "$1" in                                                        
+  start)                                                            
+        printf "Starting loading: "                                 
+        modprobe brcmfmac                                    
+        [ $? = 0 ] && echo "OK" || echo "FAIL"                      
+        ;;                                                          
+  stop)                                                             
+        printf "Unload module: "
+	modprobe -r brcmfmac
+	[ $? = 0 ] && echo "OK" || echo "FAIL"                      
+        ;;                                                          
+  restart|reload)                                                   
+        "$0" stop                                                   
+        "$0" start                                                  
+        ;;                                                          
+  *)                                                                
+        echo "Usage: $0 {start|stop|restart}"                       
+        exit 1                                                      
+esac                                                                
+                                                                    
+exit $?                                                             
+                                                                    
+                                                                    
+                                                                    
