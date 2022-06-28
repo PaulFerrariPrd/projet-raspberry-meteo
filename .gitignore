@@ -1,1 +1,14 @@
-buildroot-2022.02.2/package*
+buildroot/buildroot-2022.02.2/package
+buildroot/buildroot-2022.02.2/Makefile*
+
+buildroot/buildroot-2022.02.2/linux
+buildroot/buildroot-2022.02.2/support
+TP-LFS
+RPiOS
+buildroot/buildroot-2022.02.2/README
+buildroot/buildroot-2022.02.2/CHANGES
+buildroot/buildroot-2022.02.2/COPYING
+buildroot/buildroot-2022.02.2.tar.xz
+.bash*
+.ssh
+.viminfo
