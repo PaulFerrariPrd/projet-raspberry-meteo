@@ -36,23 +36,30 @@
 
 <div>
 
- <p> Cette interface web permet d'observer les temperatures et pressions max et min d'aujourd'hui en provenance de la sonde, <br>
-   de telecharger les donnees enregistrees depuis le debut ou d'aujourd'hui et de parametrer l'intervalle de capture de la temperature et de pression. <br>
-   <br> Valeurs d'aujourd'hui: <br>
- </p>
 
 <?php
-$db = new SQLite3("/data/mesures.db");
-$res = $db->query("SELECT max(temperature) tmax, min(temperature) tmin, max(pression) pmax, min(pression) pmin FROM mesures where date>date('now')");
-
-while ($row = $res->fetchArray()) {
-    echo "Temperature maximum: {$row['tmax']} C<br>";
-    echo "Temperature minimum: {$row['tmin']} C<br>";
-    echo "Pression maximum: {$row['pmax']} kPa<br>"; 
-    echo "Pression minimum: {$row['pmin']} kPa<br>";
-}
+$fp = fopen('/data/config_c', 'w');
+fwrite($fp, "PERIOD=" . $_POST['period'] . "\n");
+fwrite($fp, "# intervalle entre chaque mesure en secondes\n");
+fclose($fp);
 ?>
 
+
+<form action="get_today_data_json.php" method="post">
+	<input type="submit" name="submit" value="Telecharger les donnees d'aujourd'hui en JSON" />
+</form>
+
+<form action="get_all_data_json.php" method="post">
+	<input type="submit" name="submit" value="Telecharger toutes les donnees en JSON" />
+</form>
+
+<form action="get_today_data_csv.php" method="post">
+	<input type="submit" name="submit" value="Telecharger les donnees d'aujourd'hui en CSV" />
+</form>
+
+<form action="get_all_data_csv.php" method="post">
+	<input type="submit" name="submit" value="Telecharger toutes les donnees en CSV" />
+</form>
 
 </div>
 </body>

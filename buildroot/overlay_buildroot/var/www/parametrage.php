@@ -25,7 +25,7 @@
   <h1> Sonde Atmospherique </h1>
  <nav class="menu">                              
   <ul>                                           
-    <li><a href="index.php">Accueil</a></li>
+    <li><a href="index.php">Accueil</a></li>      
     <li><a href="telechargements.php">Telechargements</a></li>    
     <li><a href="parametrage.php">Parametrage Sonde</a></li>      
     <li><a href="consultation.php">Consultation Donnees</a></li>
@@ -36,21 +36,27 @@
 
 <div>
 
- <p> Cette interface web permet d'observer les temperatures et pressions max et min d'aujourd'hui en provenance de la sonde, <br>
-   de telecharger les donnees enregistrees depuis le debut ou d'aujourd'hui et de parametrer l'intervalle de capture de la temperature et de pression. <br>
-   <br> Valeurs d'aujourd'hui: <br>
- </p>
+<form method="post" action="">
+   
+       <label for="pays">Quel intervalle entre 2 mesures temperature+pression?</label><br><br>
+       <select name="period" id="period">
+           <option value="30" selected>30sec</option>
+           <option value="60">1min</option>
+           <option value="120">2min</option>
+           <option value="3000">5min</option>
+           <option value="3600">1h</option>
+           <option value="7200">2h</option>
+       </select>
+
+       <button type="submit">Selectionner</button>
+
+</form>
 
 <?php
-$db = new SQLite3("/data/mesures.db");
-$res = $db->query("SELECT max(temperature) tmax, min(temperature) tmin, max(pression) pmax, min(pression) pmin FROM mesures where date>date('now')");
-
-while ($row = $res->fetchArray()) {
-    echo "Temperature maximum: {$row['tmax']} C<br>";
-    echo "Temperature minimum: {$row['tmin']} C<br>";
-    echo "Pression maximum: {$row['pmax']} kPa<br>"; 
-    echo "Pression minimum: {$row['pmin']} kPa<br>";
-}
+$fp = fopen('/data/config_c', 'w');
+fwrite($fp, "PERIOD=" . $_POST['period'] . "\n");
+fwrite($fp, "# intervalle entre chaque mesure en secondes\n");
+fclose($fp);
 ?>
 
 
