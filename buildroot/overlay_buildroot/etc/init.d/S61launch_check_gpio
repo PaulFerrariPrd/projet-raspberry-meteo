@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+#launch script to check if gpio is held more than 10sec for parameter reset
+
+
+case "$1" in
+  start)
+	printf "Launching script: "
+	echo 27 > /sys/class/gpio/export
+	echo out > /sys/class/gpio/gpio27/direction
+
+	echo 22 > /sys/class/gpio/export
+	echo in > /sys/class/gpio/gpio22/direction
+	echo both > /sys/class/gpio/gpio22/edge
+
+	/root/check_gpio&
+	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	;;
+  stop)
+	printf "Stopping script: "
+	jobid=$(ps | grep -v "grep" | grep check_gpio | egrep -o "[0-9]+") &&
+	kill $jobid
+
+	echo 27 > /sys/class/gpio/unexport
+	echo 22 > /sys/class/gpio/unexport
+	[ $? = 0 ] && echo "OK" || echo "FAIL"
+	;;
+
+  *)
+	echo "Usage: $0 {start|stop}"
+	exit 1
+esac
+
+exit $?

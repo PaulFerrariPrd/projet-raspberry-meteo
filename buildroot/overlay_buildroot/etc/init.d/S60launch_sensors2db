@@ -11,7 +11,7 @@ case "$1" in
 	;;
   stop)
 	printf "Stopping script: "
-	jobid=$(ps | grep -v "grep" | grep sensors2db | egrep -o "[0-9]{2,4}") &&
+	jobid=$(ps | grep -v "grep" | grep sensors2db | egrep -o "[0-9]{2,9}") &&
 	kill $jobid
 	[ $? = 0 ] && echo "OK" || echo "FAIL"
 	;;

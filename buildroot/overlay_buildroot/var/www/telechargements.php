@@ -37,13 +37,6 @@
 <div>
 
 
-<?php
-$fp = fopen('/data/config_c', 'w');
-fwrite($fp, "PERIOD=" . $_POST['period'] . "\n");
-fwrite($fp, "# intervalle entre chaque mesure en secondes\n");
-fclose($fp);
-?>
-
 
 <form action="get_today_data_json.php" method="post">
 	<input type="submit" name="submit" value="Telecharger les donnees d'aujourd'hui en JSON" />
