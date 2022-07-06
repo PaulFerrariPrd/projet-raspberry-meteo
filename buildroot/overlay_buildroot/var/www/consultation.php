@@ -36,7 +36,23 @@
 
 <div>
 
+<?php
+if (isset($_GET['limit'])){
+ $_POST['limit'] = $_GET['limit'];
+}
 
+if (isset($_GET['type'])){
+ $_POST['type'] = $_GET['type'];
+}
+
+if (isset($_GET['format'])){
+ $_POST['format'] = $_GET['format'];
+}
+
+if (isset($_GET['date'])){
+ $_POST['date'] = $_GET['date'];
+}
+?>
 
 <form method="post" action="">
   Type de donnees: <select name="type" id="type">
@@ -91,9 +107,6 @@ if ($_POST['limit'] != ""){
 }
 
 
-echo $query;
-echo "<br>";
-
 $res = $db->query($query);
 
 
@@ -102,8 +115,10 @@ if ($res->fetchArray(SQLITE3_ASSOC)){
 
  // put pointer on first line again
  $res->reset();
+
  // CSV format
  if ($_POST['format'] == "csv"){
+   echo "ID, temperature, pression, date <br>";
    while ($row = $res->fetchArray(SQLITE3_ASSOC)) { 
      echo "{$row['id']}, {$row['temperature']}, {$row['pression']}, {$row['date']} <br>";
    }
